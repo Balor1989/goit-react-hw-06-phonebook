@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 
 const persistConfig = {
-  key: 'contscts',
+  key: 'contacts',
   storage,
   blacklist: ['filter'],
 };

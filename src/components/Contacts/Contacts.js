@@ -1,8 +1,18 @@
-import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import s from './Contacts.module.css';
+import { getContacts } from '../../redux/phonebook/selectors';
+import actions from '../../redux/phonebook/actions';
 
-const Contacts = ({ contacts, onDeleteContactCard }) => (
-  <>
+export default function Contacts() {
+  const contacts = useSelector(getContacts);
+
+  const dispatch = useDispatch();
+
+  const onDeleteContactCard = id => {
+    dispatch(actions.deleteContactAction(id));
+  };
+
+  return (
     <ul className={s.cardList}>
       {contacts.map(({ id, name, number }) => (
         <li className={s.cardBox} key={id}>
@@ -20,12 +30,5 @@ const Contacts = ({ contacts, onDeleteContactCard }) => (
         </li>
       ))}
     </ul>
-  </>
-);
-
-export default Contacts;
-
-Contacts.propTypes = {
-  contacts: propTypes.array,
-  onDeleteContactCard: propTypes.func,
-};
+  );
+}

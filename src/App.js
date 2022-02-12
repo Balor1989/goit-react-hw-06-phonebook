@@ -1,6 +1,6 @@
 import s from './App.module.css';
-import useLocaleStorage from './hooks/localeStorage';
-import { useState, useEffect } from 'react';
+// import useLocaleStorage from './hooks/localeStorage';
+import { useState } from 'react';
 import Contacts from './components/Contacts/Contacts';
 import Phonebook from './components/Phonebook/Phonebook';
 import shortid from 'shortid';
@@ -9,12 +9,8 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import contactEl from './components/Contacts/contacts.json';
 
 const App = () => {
-  const [contacts, setContacts] = useLocaleStorage('contact', contactEl);
+  const [contacts, setContacts] = useState(contactEl);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contact', JSON.stringify(contacts));
-  }, [contacts]);
 
   const filterChange = e => {
     setFilter(e.target.value);
@@ -40,9 +36,9 @@ const App = () => {
     Notify.success(`${name} is added in contacts`);
   };
 
-  const deleteContactCard = cardId => {
-    setContacts(prev => prev.filter(contact => contact.id !== cardId));
-  };
+  // const deleteContactCard = cardId => {
+  //   setContacts(prev => prev.filter(contact => contact.id !== cardId));
+  // };
 
   const normalizedFilter = filter.toLowerCase();
   const visibleContactCards = contacts.filter(contact =>
@@ -53,10 +49,7 @@ const App = () => {
     <section className={s.phonebookSection}>
       <Phonebook onAddContactCard={addContactCard} />
       <Filter onFilterChange={filterChange} value={filter} />
-      <Contacts
-        contacts={visibleContactCards}
-        onDeleteContactCard={deleteContactCard}
-      />
+      <Contacts />
     </section>
   );
 };
