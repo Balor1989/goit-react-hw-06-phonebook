@@ -2,10 +2,16 @@ import { BsFillTelephonePlusFill } from 'react-icons/bs';
 import { IconContext } from 'react-icons';
 import s from './Phonebook.module.css';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../../redux/phonebook/selectors';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import actions from '../../redux/phonebook/actions';
 
-const Phonebook = ({ onAddContactCard }) => {
+export default function Phonebook() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -24,9 +30,17 @@ const Phonebook = ({ onAddContactCard }) => {
 
   const formSubmit = e => {
     e.preventDefault();
-    onAddContactCard({ name, number });
-    setNumber('');
-    setName('');
+    const repeatName = contacts.find(contact => {
+      return contact.name.toLowerCase() === name.toLowerCase();
+    });
+    if (!repeatName) {
+      Notify.success(`${name} is added in contacts`);
+      dispatch(actions.addContactAction(name, number));
+      setNumber('');
+      setName('');
+      return;
+    }
+    Notify.warning(`${name} is already in contacts`);
   };
 
   return (
@@ -79,6 +93,4 @@ const Phonebook = ({ onAddContactCard }) => {
       </form>
     </>
   );
-};
-
-export default Phonebook;
+}
