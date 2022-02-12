@@ -1,11 +1,11 @@
 import { createAction } from '@reduxjs/toolkit';
 import shortid from 'shortid';
 
-const filterChangeAction = createAction('phonebook/filterChange');
+export const filterChangeAction = createAction('phonebook/filterChange');
 
-const deleteContactAction = createAction('phonebook/deleteContact');
+export const deleteContactAction = createAction('phonebook/deleteContact');
 
-const addContactAction = createAction(
+export const addContactAction = createAction(
   'phonebook/addContact',
   (name, number) => {
     return {
@@ -17,5 +17,3 @@ const addContactAction = createAction(
     };
   },
 );
-
-export default { deleteContactAction, filterChangeAction, addContactAction };

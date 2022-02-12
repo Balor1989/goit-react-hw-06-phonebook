@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from '../../redux/phonebook/selectors';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import actions from '../../redux/phonebook/actions';
+import { addContactAction } from '../../redux/phonebook/actions';
 
 export default function Phonebook() {
   const [name, setName] = useState('');
@@ -35,7 +35,7 @@ export default function Phonebook() {
     });
     if (!repeatName) {
       Notify.success(`${name} is added in contacts`);
-      dispatch(actions.addContactAction(name, number));
+      dispatch(addContactAction(name, number));
       setNumber('');
       setName('');
       return;
